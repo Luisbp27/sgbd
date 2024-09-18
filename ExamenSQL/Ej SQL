@@ -1,0 +1,90 @@
+1. Número de todas las cuentas corrientes ( NumCta ) de la sucursal número 2 ordenadas por fecha de
+apertura ( FecApe ).
+
+SELECT CUENTA.NUMCTA, CUENTA.FECAPE
+FROM CUENTA
+WHERE CODSUC = 2
+ORDER BY CUENTA.FECAPE ASC
+
+2. El número de todas las cuentas corrientes del cliente con DNI 44444444 y el orden de titularidad. 
+
+SELECT CUENTA.NUMCTA
+FROM CUENTA
+JOIN TITULAR ON CUENTA.NUMCTA = CUENTA.NUMCTA AND TITULAR.DNICLI = '44444444'
+ORDER BY TITULAR.NUMORD ASC
+
+3. El número de todas las cuentas corrientes del cliente que se llama Pedro del Valle y el orden de
+titularidad. 
+
+SELECT CUENTA.NUMCUENTA
+FROM CUENTA
+JOIN TITULAR ON CUENTA.NUMCTA = TITULAR.NUMCTA
+JOIN CLIENTE ON TITULAR.DNICLI = CLIENTE.DNICLI
+WHERE CLIENTE.NOMCLI = 'Pedro del Valle'
+ORDER BY TITULAR.NUMORD
+
+4. El DNI y nombre de todos los clientes que tienen cuenta en la sucursal número 4, ordenado por
+nombre. 
+
+SELECT CLIENTE.DNICLI, CLIENTE.NOMCLI
+FROM CLIENTE
+JOIN TITULAR ON CLIENTE.DNICLI = TITULAR.DNICLI
+JOIN CUENTA ON TITULAR.NUMCTA = CUENTA.NUMCTA
+WHERE CUENTA.CODSUC = 4
+ORDER BY CLIENTE.NOMCLI
+
+5. El saldo de la cuenta número 6. 
+
+SELECT SUM(OPERACION.IMPOPE)
+FROM OPERACION
+JOIN CUENTA ON OPERACION.NUMCTA = CUENTA.NUMCTA
+WHERE CUENTA.NUMCTA = 6
+
+6. El número y saldo de todas las cuentas de la sucursal número 4. 
+
+SELECT OPERACION.NUMCTA, SUM(OPERACION.IMPOPE)
+FROM OPERACION
+JOIN CUENTA ON OPERACION.NUMCTA = CUENTA.NUMCTA
+WHERE CUENTA.CODSUC = 4
+
+7. Listado de clientes ( DNI y nombre ) con el saldo total ( suma de saldos ) de todas sus cuentas
+corrientes, ordenado por nombre.
+
+SELECT CLIENTE.DNICLI, CLIENTE.NOMCLI
+FROM CLIENTE
+JOIN
+
+8. Todas las sucursales ( número ) y su saldo total ( suma de los saldo de todas sus cuentas )
+ordenado descendentemente por el saldo
+
+SELECT SUCURSAL.CODSUC, SUM(OPERACION.IMPOPE) AS Saldo
+FROM SUCURSAL
+JOIN CUENTA ON SUCURSAL.CODSUC = CUENTA.CODSUC
+JOIN OPERACION ON CUENTA.NUMCTA = OPERACION.NUMCTA
+ORDER BY Saldo DESC
+
+
+**** HOJA 2 ****
+
+1. Per a cada tema i any d'estreno, informar el nombre de pel·lícules estrenades sobre aquest tema en aquell any.
+
+SELECT TEMA.CodiTema, PELICULA.AnyEstreno, COUNT(PELICULA.CodiPelicula)
+FROM TEMA
+JOIN TEMA-PELI ON TEMA.CodiTema = TEMA-PELI.CodiTema
+JOIN PELICULA ON TEMA-PELI.CodiPelicula = PELICULA.CodiPelicula
+GROUP BY TEMA.CodiTema, PELICULA.AnyEstreno
+ORDER BY TEMA.CodiTema, PELICULA.AnyEstreno
+
+2. Per a cada tema informar el nom del tema, el títol i any d’estreno de cada pel·lícula que versi sobre ell, i el nom de la productora que l’ha produit. Donar el resultat ordenat per nom del tema i any d’estreno de la pel·lícula. 
+
+SELECT TEMA.Nom, PELICULA.Titol, PELICULA.AnyEstreno, PRODUCTORA.Nom
+FROM TEMA
+JOIN TEMA-PELI ON TEMA.CodiTema = TEMA-PELI.CodiTema
+JOIN PELICULA ON TEMA-PELI.CodiPelicula = PELICULA.CodiPelicula
+JOIN PRODUCTORA ON PELICULA.CodiProductora = PRODUCTORA.CodiProductora
+GROUP BY TEMA.Nom
+ORDER BY TEMA.Nom
+
+
+
+

@@ -1,6 +1,0 @@
-LOAD DATABASE
-    FROM mysql://MIGBD:admin@localhost/DEFBD
-    INTO postgresql://migrator:admin@localhost/migbd
-
-BEFORE LOAD DO
-$$ ALTER DATABASE migbd SET search_path TO sgbd, public; $$;
